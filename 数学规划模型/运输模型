@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.optimize import linprog
+x=[1.25,8.75,0.5,5.75,3,7.25]
+y=[1.25,0.75,4.75,5,6.5,7.25]
+dist_A=[]; dist_B=[]; dist_A2=[];
+for i in range(len(x)): 
+    dist_A.append(np.sqrt((x[i]-5)**2+(y[i]-1)**2))
+    dist_B.append(np.sqrt((x[i]-2)**2+(y[i]-7)**2))
+dist_A2=dist_A.copy()
+for j in range(len(dist_B)):
+    dist_A2.append(dist_B[j])
+c=dist_A2
+A=[[-1,0,0,0,0,0,-1,0,0,0,0,0],[0,-1,0,0,0,0,0,-1,0,0,0,0],[0,0,-1,0,0,0,0,0,-1,0,0,0],[0,0,0,-1,0,0,0,0,0,-1,0,0],[0,0,0,0,-1,0,0,0,0,0,-1,0],[0,0,0,0,0,-1,0,0,0,0,0,-1]];
+b=[-3,-5,-4,-7,-6,-11]
+Aeq=[[1,1,1,1,1,1,0,0,0,0,0,0],[0,0,0,0,0,0,1,1,1,1,1,1]];
+beq=[20,20]
+res=linprog(c,A,b,Aeq,beq)
+print(res.x)
+print(res.fun)
